@@ -1,0 +1,116 @@
+units:
+  # Proxy Spacing Variables
+  kx: U
+  ky: U
+  # Padding Variables
+  px: kx + 2
+  py: ky + 2
+  #board outer padding
+  bx: U+5
+  by: U+5
+  $default_height: cy
+  $default_width: cx
+  tsx: 3
+  tsy: 3
+points:
+  zones:
+    matrix:
+      key:
+        padding: 1ky
+        spread: 1kx
+      columns:
+        outer:
+        pinky:
+        ring:
+          key:
+            stagger: ky*.25
+        middle:
+          key:
+            stagger: ky*.125
+        index:
+          key:
+            stagger: ky*-.125
+        inner:
+          key:
+            stagger: ky*-.125
+      rows:
+        bottom:
+        home:
+        top:
+    thumb:
+      anchor:
+        ref: matrix_index_bottom
+        shift: [-0.5kx, -ky-3]
+      columns:
+        middle:
+          key:
+            splay: -90
+      rows:
+        left:
+        middle:
+          shift: [tsx, tsy]
+          rotate: -15
+        right:
+          rotate: -15
+          shift: [tsx-4.5, tsy+1.5]
+          width: 1.5cx
+          skip:
+  rotate: -15
+  mirror:
+    ref: matrix_inner_top
+    distance: 60
+outlines:
+  pcbboutline:
+    - what: rectangle
+      where: true
+      size: [px, py]
+  keys:
+    - what: rectangle
+      where: true
+      size: [cx, cy]
+    - what: rectangle
+      where: "/(thumb_middle_right)/"
+      size: [1.5cy, cy]
+  switchMounts:
+    - what: rectangle
+      where: true
+      size: [14, 14]
+
+  board:
+    surround:
+      what: polygon
+      operation: stack
+      fillet: 5
+
+      points:
+        - ref: matrix_outer_top
+          shift: [-.5bx, .5by]
+        - ref: matrix_ring_top
+          shift: [-.5bx, .5by]
+        - ref: matrix_middle_top
+          shift: [-.5bx, 0.5by]
+        - ref: matrix_middle_top
+          shift: [.5bx, 0.5by]
+        - ref: matrix_inner_top
+          shift: [.5bx, .5by]
+        - ref: mirror_matrix_inner_top
+          shift: [.5bx, 0.5by]
+        - ref: mirror_matrix_middle_top
+          shift: [.5bx, 0.5by]
+        - ref: mirror_matrix_middle_top
+          shift: [-.5bx, 0.5by]
+        - ref: mirror_matrix_ring_top
+          shift: [-.5bx, 0.5by]
+        - ref: mirror_matrix_outer_top
+          shift: [-.5bx, 0.5by]
+        - ref: mirror_matrix_outer_bottom
+          shift: [-0.5bx, -0.5by]
+        - ref: mirror_thumb_middle_right
+          shift: [.7by, .4bx]
+        - ref: thumb_middle_right
+          shift: [.7by, 0.4bx]
+        - ref: matrix_outer_bottom
+          shift: [-.5bx, -.5by]
+  debug:
+    - "keys"
+    - "^board"

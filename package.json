@@ -1,0 +1,14 @@
+{
+  "name": "bits_paw",
+  "version": "1.0.0",
+  "description": "Keyboard",
+  "main": "index.js",
+  "scripts": {
+    "generate": "ergogen ./src/ergogen -o out "
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ergogen": "^4.0.5"
+  }
+}
