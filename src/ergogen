@@ -1,7 +1,7 @@
 units:
   # Proxy Spacing Variables
-  kx: U
-  ky: U
+  kx: u
+  ky: u
   # Padding Variables
   px: kx + 2
   py: ky + 2
@@ -10,11 +10,16 @@ units:
   by: U+5
   $default_height: cy
   $default_width: cx
-  tsx: 3
-  tsy: 3
+  tsx: 4
+  tsy: -3
+  splitW: 3kx
 points:
   zones:
     matrix:
+      # move Origin,
+      # to allow pcb positioning by default
+      anchor:
+        shift: [100, -100]
       key:
         padding: 1ky
         spread: 1kx
@@ -40,25 +45,24 @@ points:
     thumb:
       anchor:
         ref: matrix_index_bottom
-        shift: [-0.5kx, -ky-3]
+        shift: [-0.5kx, -ky-2]
       columns:
-        middle:
-          key:
-            splay: -90
-      rows:
         left:
         middle:
-          shift: [tsx, tsy]
-          rotate: -15
+          key:
+            rotate: -15
+            shift: [tsx, tsy]
         right:
-          rotate: -15
-          shift: [tsx-4.5, tsy+1.5]
-          width: 1.5cx
-          skip:
+          key:
+            rotate: 60
+            shift: [2.2tsx, 2.5tsy]
+            width: 1.5cx
+      rows:
+        main:
   rotate: -15
   mirror:
     ref: matrix_inner_top
-    distance: 60
+    distance: splitW
 outlines:
   pcbboutline:
     - what: rectangle
@@ -69,8 +73,8 @@ outlines:
       where: true
       size: [cx, cy]
     - what: rectangle
-      where: "/(thumb_middle_right)/"
-      size: [1.5cy, cy]
+      where: "/(thumb_right)/"
+      size: [1.5U, U]
   switchMounts:
     - what: rectangle
       where: true
@@ -105,12 +109,31 @@ outlines:
           shift: [-.5bx, 0.5by]
         - ref: mirror_matrix_outer_bottom
           shift: [-0.5bx, -0.5by]
-        - ref: mirror_thumb_middle_right
-          shift: [.7by, .4bx]
-        - ref: thumb_middle_right
-          shift: [.7by, 0.4bx]
+        - ref: mirror_thumb_right_main
+          shift: [-.7by, -.5bx]
+        - ref: thumb_right_main
+          shift: [-.7by, -0.5bx]
         - ref: matrix_outer_bottom
           shift: [-.5bx, -.5by]
   debug:
     - "keys"
     - "^board"
+  switchPlate:
+    - "switchMounts"
+    - "^board"
+
+pcbs:
+  main:
+    outlines:
+      main:
+        outline: board
+    footprints:
+      choc_hotswap:
+        what: choc
+        where: true
+        params:
+          keycaps: true
+          reverse: false
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
